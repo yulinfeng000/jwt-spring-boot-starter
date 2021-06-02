@@ -34,3 +34,7 @@ build/
 
 ### MacOS ###
 .DS_Store
+
+
+### localFile ###
+deploy.sh
