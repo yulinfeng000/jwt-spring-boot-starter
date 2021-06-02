@@ -12,7 +12,6 @@ public class TestJWTIdentity implements JWTIdentity {
 
     @Override
     public Object getCurrent(String identity) {
-        TestUser testUser = db.get(identity);
-        return testUser;
+        return db.get(identity);
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class JWTInterceptor implements HandlerInterceptor {
+public class JWTAuthInterceptor implements HandlerInterceptor {
 
 
     @Autowired
@@ -22,7 +22,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     JWTProperties jwtProperties;
 
-    public JWTInterceptor(JWTManager jwtManager, JWTProperties jwtProperties) {
+    public JWTAuthInterceptor(JWTManager jwtManager, JWTProperties jwtProperties) {
         this.jwtManager = jwtManager;
         this.jwtProperties = jwtProperties;
     }
@@ -42,14 +42,13 @@ public class JWTInterceptor implements HandlerInterceptor {
         return jwtManager.verify(token);
     }
 
-    private static void appendUserInfo(HttpServletRequest request, DecodedJWT jwt) {
-        request.getSession().setAttribute("ide", jwt.getClaim("ide").asString());
-        request.getSession().setAttribute("rle", jwt.getClaim("rle").asString());
+    private static void addIdentity(HttpServletRequest request, DecodedJWT jwt) {
+        request.setAttribute("ide", jwt.getClaim("ide").asString());
     }
 
     private boolean process(PermissionRequire annotation, HttpServletRequest request) {
         DecodedJWT jwt = checkPermission(annotation, request);
-        appendUserInfo(request, jwt);
+        addIdentity(request, jwt);
         return true;
     }
 

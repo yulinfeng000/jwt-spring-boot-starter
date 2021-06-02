@@ -6,14 +6,14 @@ import fun.yulinfeng.jwt.starter.core.JWTIdentity;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
 import fun.yulinfeng.jwt.starter.enums.AlgoEnum;
 import fun.yulinfeng.jwt.starter.exception.JWTConfigException;
-import fun.yulinfeng.jwt.starter.interceptor.JWTInterceptor;
+import fun.yulinfeng.jwt.starter.interceptor.JWTAuthInterceptor;
+import fun.yulinfeng.jwt.starter.resolver.JWTCurrentArgumentResolver;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,13 +41,19 @@ public class JWTAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public JWTInterceptor jwtInterceptor(JWTManager jwtManager) {
-        return new JWTInterceptor(jwtManager, jwtProperties);
+    public JWTAuthInterceptor jwtInterceptor(JWTManager jwtManager) {
+        return new JWTAuthInterceptor(jwtManager, jwtProperties);
     }
 
     @Bean
-    WebMvcConfigurer jwtWebMvcConfigurer(JWTInterceptor jwtInterceptor) {
-        return new JWTWebMvcConfigurer(jwtProperties, jwtInterceptor);
+    WebMvcConfigurer jwtWebMvcConfigurer(JWTAuthInterceptor jwtAuthInterceptor, JWTCurrentArgumentResolver jwtCurrentArgumentResolver) {
+        return new JWTWebMvcConfigurer(jwtProperties, jwtAuthInterceptor, jwtCurrentArgumentResolver);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    JWTCurrentArgumentResolver jwtCurrentArgumentResolver(JWTIdentity jwtIdentity) {
+        return new JWTCurrentArgumentResolver(jwtIdentity);
     }
 
     @Bean

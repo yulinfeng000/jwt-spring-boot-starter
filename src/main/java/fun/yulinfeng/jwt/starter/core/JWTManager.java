@@ -74,11 +74,7 @@ public class JWTManager {
 
     public Object current() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        Object ide = request.getSession().getAttribute("ide");
-        if (ide instanceof String) {
-            String identity = (String) ide;
-            return jwtIdentity.getCurrent(identity);
-        }
-        return null;
+        String ide = (String) request.getAttribute("ide");
+        return jwtIdentity.getCurrent(ide);
     }
 }
