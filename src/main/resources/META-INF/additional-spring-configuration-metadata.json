@@ -1,0 +1,48 @@
+{
+  "properties": [
+    {
+      "name": "jwt.expire-time",
+      "type": "java.lang.Long",
+      "description": "jwt token expire time seconds.",
+      "defaultValue": 86400
+    },
+    {
+      "name": "jwt.path.include",
+      "type": "java.lang.String[]",
+      "defaultValue": [
+        "/**"
+      ],
+      "description": "."
+    },
+    {
+      "name": "jwt.path.exclude",
+      "type": "java.lang.String[]",
+      "defaultValue": [],
+      "description": "."
+    },
+    {
+      "name": "jwt.encrypt-method",
+      "type": "java.lang.String",
+      "defaultValue": "HS256",
+      "description": "."
+    },
+    {
+      "name": "jwt.secret-key",
+      "type": "java.lang.String",
+      "defaultValue": "123456",
+      "description": "."
+    },
+    {
+      "name": "jwt.www.header",
+      "type": "java.lang.String",
+      "defaultValue": "Authentication",
+      "description": "."
+    },
+    {
+      "name": "jwt.www.type",
+      "type": "java.lang.String",
+      "defaultValue": "Bearer",
+      "description": "."
+    }
+  ]
+}

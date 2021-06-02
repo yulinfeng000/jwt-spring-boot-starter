@@ -1,0 +1,49 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "fun.yulinfeng.jwt.starter.property.JWTProperties",
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expire-time",
+      "type": "java.lang.Long",
+      "defaultValue": 86400,
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    },
+    {
+      "name": "jwt.secret-key",
+      "type": "java.lang.String",
+      "defaultValue": "123456",
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    },
+    {
+      "name": "jwt.path.include",
+      "type": "java.lang.String[]",
+      "defaultValue": [
+        "/**"
+      ],
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    },
+    {
+      "name": "jwt.path.exclude",
+      "type": "java.lang.String[]",
+      "defaultValue": [],
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    },
+    {
+      "name": "jwt.www.header",
+      "type": "java.lang.String",
+      "defaultValue": "Authentication",
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    },
+    {
+      "name": "jwt.www.type",
+      "type": "java.lang.String",
+      "defaultValue": "Bearer",
+      "sourceType": "fun.yulinfeng.jwt.starter.property.JWTProperties"
+    }
+  ]
+}
