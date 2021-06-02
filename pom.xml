@@ -44,6 +44,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
             <!--            <plugin>-->
             <!--                <groupId>org.springframework.boot</groupId>-->
@@ -60,5 +61,6 @@
             </resource>
         </resources>
     </build>
+
 
 </project>
