@@ -15,7 +15,7 @@ public class JWTProperties {
     @Value("${jwt.secret-key:123456}")
     public String secretKey;
 
-    @Value("${jwt.www.header:Authentication}")
+    @Value("${jwt.www.header:Authorization}")
     public String wwwHeader;
 
     @Value("${jwt.www.type:Bearer}")

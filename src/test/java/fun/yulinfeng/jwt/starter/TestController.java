@@ -1,10 +1,9 @@
 package fun.yulinfeng.jwt.starter;
 
 import fun.yulinfeng.jwt.starter.annotation.JWTCurrent;
-import fun.yulinfeng.jwt.starter.annotation.PermissionRequire;
+import fun.yulinfeng.jwt.starter.annotation.JWTRequire;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +31,12 @@ public class TestController {
         TestUser user = mockDB.get(form.username);
         if (user == null) return Map.of("code", 401, "msg", "error");
         if (user.password.equals(form.password)) {
-            String token = jwtManager.sign(List.of("user"), user.username);
+            String token = jwtManager.sign(List.of("user"), Map.of("ide",user.username));
             return Map.of("code", 200, "msg", "success", "token", token);
         } else return Map.of("code", 401, "msg", "error");
     }
 
-    @PermissionRequire
+    @JWTRequire
     @GetMapping("/info")
     public Object info() {
         TestUser current = (TestUser) jwtManager.current();
@@ -47,7 +46,7 @@ public class TestController {
         return Map.of("user", "");
     }
 
-    @PermissionRequire
+    @JWTRequire
     @GetMapping("/current")
     public Object testJWTCurrent(@JWTCurrent TestUser user) {
         System.out.println(user.toString());

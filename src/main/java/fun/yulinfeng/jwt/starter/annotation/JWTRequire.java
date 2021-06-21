@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface PermissionRequire {
+public @interface JWTRequire {
     boolean required() default true;
 
     String role() default "";

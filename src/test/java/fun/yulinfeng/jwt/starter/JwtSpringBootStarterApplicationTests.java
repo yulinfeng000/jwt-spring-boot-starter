@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import java.util.List;
+import java.util.Map;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -67,11 +68,11 @@ class JwtSpringBootStarterApplicationTests {
     void testJWTManagercurrent() throws Exception {
         TestUser testUser = new TestUser("123", "123");
 
-        String token = jwtManager.sign(List.of("user"), testUser.username);
+        String token = jwtManager.sign(List.of("user"), Map.of("ide",testUser.username));
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRequestURI("/user/info");
         request.setMethod("GET");
-        request.addHeader("Authentication", "Bearer " + token);
+        request.addHeader("Authorization", "Bearer " + token);
         db.add(testUser);
         MockHttpServletResponse response = new MockHttpServletResponse();
         HandlerMethod info = new HandlerMethod(controller, TestController.class.getMethod("info"));
@@ -89,11 +90,11 @@ class JwtSpringBootStarterApplicationTests {
     void testJWTCurrent() throws Exception {
         TestUser testUser = new TestUser("123", "123");
 
-        String token = jwtManager.sign(List.of("user"), testUser.username);
+        String token = jwtManager.sign(List.of("user"), Map.of("ide",testUser.username));
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRequestURI("/user/current");
         request.setMethod("GET");
-        request.addHeader("Authentication", "Bearer " + token);
+        request.addHeader("Authorization", "Bearer " + token);
         db.add(testUser);
         MockHttpServletResponse response = new MockHttpServletResponse();
         HandlerMethod method = new HandlerMethod(controller, TestController.class.getMethod("testJWTCurrent", TestUser.class));

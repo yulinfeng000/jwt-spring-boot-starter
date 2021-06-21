@@ -2,7 +2,7 @@ package fun.yulinfeng.jwt.starter.interceptor;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import fun.yulinfeng.jwt.starter.annotation.PermissionRequire;
+import fun.yulinfeng.jwt.starter.annotation.JWTRequire;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class JWTAuthInterceptor implements HandlerInterceptor {
         return header.substring((jwtProperties.wwwType + " ").length());
     }
 
-    private DecodedJWT checkPermission(PermissionRequire annotation, HttpServletRequest request) {
+    private DecodedJWT checkPermission(JWTRequire annotation, HttpServletRequest request) {
         String token = getTokenStrFromRequest(request);
         if (!StringUtils.hasText(token)) throw new JWTVerificationException("请求没有携带jwt-token");
         String role = annotation.role();
@@ -43,10 +43,10 @@ public class JWTAuthInterceptor implements HandlerInterceptor {
     }
 
     private static void addIdentity(HttpServletRequest request, DecodedJWT jwt) {
-        request.setAttribute("ide", jwt.getClaim("ide").asString());
+        request.setAttribute("jwt", jwt);
     }
 
-    private boolean process(PermissionRequire annotation, HttpServletRequest request) {
+    private boolean process(JWTRequire annotation, HttpServletRequest request) {
         DecodedJWT jwt = checkPermission(annotation, request);
         addIdentity(request, jwt);
         return true;
@@ -55,18 +55,18 @@ public class JWTAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) return true;
-        PermissionRequire annotation = null;
+        JWTRequire annotation = null;
         HandlerMethod method = (HandlerMethod) handler;
 
         // annotation from method
-        annotation = method.getMethodAnnotation(PermissionRequire.class);
+        annotation = method.getMethodAnnotation(JWTRequire.class);
         if (annotation != null) {
             if (!annotation.required()) return true;
             return process(annotation, request);
         }
 
         // annotation from class
-        annotation = method.getBean().getClass().getAnnotation(PermissionRequire.class);
+        annotation = method.getBean().getClass().getAnnotation(JWTRequire.class);
         if (annotation != null) {
             if (!annotation.required()) return true;
             return process(annotation, request);

@@ -1,6 +1,8 @@
 package fun.yulinfeng.jwt.starter.core;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 public interface JWTIdentity {
 
-    Object getCurrent(String identity);
+    Object getCurrent(DecodedJWT jwt);
 }
