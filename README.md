@@ -1,8 +1,10 @@
 # jwt-spring-boot-starter
+简单的jwt权限验证框架,面向使用前后端分离开发但又不想引入庞大安全框架的项目
 
 ## 使用方法
 
 ### 生成JWT
+注入JWTManager,调用sign方法签发jwt令牌
 ```java
 @RestController
 public TestController {
