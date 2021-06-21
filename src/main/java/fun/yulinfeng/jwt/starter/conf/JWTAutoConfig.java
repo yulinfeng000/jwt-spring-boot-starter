@@ -1,6 +1,8 @@
 package fun.yulinfeng.jwt.starter.conf;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import fun.yulinfeng.jwt.starter.algo.DefaultAlgorithmProvider;
+import fun.yulinfeng.jwt.starter.algo.JWTAlgorithmProvider;
 import fun.yulinfeng.jwt.starter.core.DefaultJWTIdentity;
 import fun.yulinfeng.jwt.starter.core.JWTIdentity;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
@@ -56,19 +58,16 @@ public class JWTAutoConfig {
         return new JWTCurrentArgumentResolver(jwtIdentity);
     }
 
+
     @Bean
     @ConditionalOnMissingBean
-    Algorithm algorithm() throws InvocationTargetException, IllegalAccessException {
-        //todo 目前只支持hash算法，还不支持keypair
-        AlgoEnum algo = AlgoEnum.valueOf(jwtProperties.encryptMethod);
-        try {
-            Method method = Algorithm.class.getMethod(algo.algorithm, String.class);
-            return (Algorithm) method.invoke(Algorithm.class, jwtProperties.secretKey);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            throw new JWTConfigException("jwt算法配置错误", e.getCause());
-        }
+    JWTAlgorithmProvider defaultAlgorithmProvider(JWTProperties jwtProperties) {
+        return new DefaultAlgorithmProvider(jwtProperties);
     }
 
-
+    @Bean
+    @ConditionalOnMissingBean
+    Algorithm algorithm(JWTAlgorithmProvider provider) {
+        return provider.algorithm();
+    }
 }

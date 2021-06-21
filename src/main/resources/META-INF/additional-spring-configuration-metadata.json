@@ -21,16 +21,10 @@
       "description": "."
     },
     {
-      "name": "jwt.encrypt-method",
-      "type": "java.lang.String",
-      "defaultValue": "HS256",
-      "description": "."
-    },
-    {
       "name": "jwt.secret-key",
       "type": "java.lang.String",
       "defaultValue": "123456",
-      "description": "."
+      "description": "secret key for jwt hash algo."
     },
     {
       "name": "jwt.www.header",
