@@ -74,9 +74,8 @@ public class JWTManager {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
         List<String> rle = jwt.getClaim("rle").asList(String.class);
-        if (rle != null && rle.contains(role)) {
+        if (rle != null && rle.contains(role))
             return jwt;
-        }
         throw new JWTVerificationException("无目标权限");
     }
 

@@ -1,6 +1,6 @@
 # jwt-spring-boot-starter
 简单的jwt权限验证框架,面向使用前后端分离开发但又不想引入庞大安全框架的项目
-
+jwt令牌生成并验证逻辑底层由auth0/java-jwt提供
 ## 使用方法
 
 ### 生成JWT
@@ -116,29 +116,57 @@ public TestController {
         }
     }
     ```
+### 自定义配置
+请参考配置示例文件并根据自身需求配置
+```yml
+spring:
+    port: xxx
+    xx: xx 
+    ....
+jwt:
+   expire-time: 86400 # jwt令牌过期时间,默认值86400,单位秒
+   secret-key: mypasswd # jwt令牌hash加密key,默认值123456,强烈建议自定义key
+   path:
+      include: #jwt验证拦截路径,默认值 **/*
+        - /user/*
+        - /admin/*
+      exclude: #jwt验证排除路径,默认值无
+        - /public/*
+   www:
+      header: MyJWTAuthHeader # 自定义验证头,默认值:Authentication,不建议修改
+      type: JWT  # 自定义令牌类型,默认:Bearer,不建议修改
+```
 
+如果需要更高级的加密算法,请继承JWTAlgorithmProvider并实现algorithm方法
+```java
+@Component
+public class MyAlgorithmProvider extends JWTAlgorithmProvider{
 
+    @Override
+    public Algorithm algorithm(){
+        //TODO：参考 https://github.com/auth0/java-jwt 实现对应算法
+    } 
+}
+
+```
 ### 发送请求
-1. 请求头部携带token格式
-    ```http
+1. 请求头部携带token默认格式
+    
+    ```http request
     Authorization: Bearer <your token here>
     ```
 
 2. axios 整合示例
-    ```js
+    ```javascript
     import axios from 'axios'
 
     const $axios = axios.create()
 
     $axios.interceptors.request.use((config) => {
         const token = getToken() //get token from cookies or ...
-        config.headers['Authorization'] = `Bearer ${token}`
+        if(token)config.headers['Authorization'] = `Bearer ${token}`
         return config
     })
 
     export default $axios
     ```
-
-
-## TODO
-1. 目前仅仅支持Hash算法

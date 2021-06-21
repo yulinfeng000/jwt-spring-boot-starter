@@ -5,20 +5,16 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import fun.yulinfeng.jwt.starter.annotation.JWTRequire;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class JWTAuthInterceptor implements HandlerInterceptor {
 
 
-    @Autowired
     JWTManager jwtManager;
-
 
     JWTProperties jwtProperties;
 

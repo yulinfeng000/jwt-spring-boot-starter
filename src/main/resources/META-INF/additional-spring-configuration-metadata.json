@@ -3,7 +3,7 @@
     {
       "name": "jwt.expire-time",
       "type": "java.lang.Long",
-      "description": "jwt token expire time seconds.",
+      "description": "jwt令牌过期时间.",
       "defaultValue": 86400
     },
     {
@@ -12,13 +12,13 @@
       "defaultValue": [
         "/**"
       ],
-      "description": "."
+      "description": "jwt验证拦截路径."
     },
     {
       "name": "jwt.path.exclude",
       "type": "java.lang.String[]",
       "defaultValue": [],
-      "description": "."
+      "description": "jwt验证排除路径."
     },
     {
       "name": "jwt.secret-key",
