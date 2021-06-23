@@ -49,7 +49,7 @@ public class DefaultJWTManager extends JWTManager {
                 .sign(algorithm);
     }
 
-    public String sign(List<String> role, Map<String, ?> payload, Duration expire) {
+    public String sign(List<String> role, Map<String, Object> payload, Duration expire) {
         HashMap<String, Object> header = new HashMap<>();
         header.put("typ", "JWT");
         header.put("alg", algorithm.getName());
@@ -65,13 +65,11 @@ public class DefaultJWTManager extends JWTManager {
     }
 
     public DecodedJWT verify(String token) {
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        return verifier.verify(token);
+        return JWT.require(algorithm).build().verify(token);
     }
 
     public DecodedJWT verify(String token, String role) {
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT jwt = verifier.verify(token);
+        DecodedJWT jwt =  JWT.require(algorithm).build().verify(token);
         List<String> rle = jwt.getClaim("rle").asList(String.class);
         if (rle != null && rle.contains(role))
             return jwt;

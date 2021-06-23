@@ -8,7 +8,7 @@ import java.util.Map;
 public abstract class JWTManager {
 
     public abstract String sign(List<String> role, Map<String, Object> payload);
-    public abstract String sign(List<String> role, Map<String, ?> payload, Duration expire);
+    public abstract String sign(List<String> role, Map<String, Object> payload, Duration expire);
     public abstract DecodedJWT verify(String token);
     public abstract DecodedJWT verify(String token, String role);
 
