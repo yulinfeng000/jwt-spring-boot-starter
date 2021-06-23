@@ -1,13 +1,14 @@
 # jwt-spring-boot-starter
 简单的jwt权限验证框架,面向使用前后端分离开发但又不想引入庞大安全框架的项目
-jwt令牌生成并验证逻辑底层由auth0/java-jwt提供
+
+jwt底层由 [auth0/java-jwt](https://github.com/auth0/java-jwt) 实现,本项目只提供快速整合
 ## 使用方法
 
 ### 生成JWT
 注入JWTManager,调用sign方法签发jwt令牌
 ```java
 @RestController
-public TestController {
+public class TestController {
 
     @Autowired
     JWTManager jwtManager;
@@ -20,7 +21,7 @@ public TestController {
         String token = jwtManager.sign(
             List.of("user","user:edit"), //自定义jwt的权限
             Map.of("id",u.id) //自定义jwt的携带信息,建议携带id,方便后面根据id查询当前用户
-        )
+        );
 
         //TODO: return token ...
     }
@@ -29,11 +30,13 @@ public TestController {
 
 
 ### JWT拦截验证
-在需要验证jwt的地方打上注解
-注解在方法上
+在需要验证jwt的方法上标记@JWTRequire注解,表明需要携带jwt才可访问该方法
+
+<b>注解在方法上</b>
+
 ```java
 @RestController
-public TestController {
+public class TestController {
 
     //必须携带jwt才可访问该方法
     @JWTRequire
@@ -50,11 +53,11 @@ public TestController {
     }
 }
 ```
-注解在类上
+<b>注解在类上</b>
 ```java
 @RestController
 @JWTRequire //注解在类上,该类的所有方法都必须携带jwt才可访问该方法
-public TestController {
+public class TestController {
 
     @GetMapping("/info")
     public Object info(){
@@ -82,27 +85,30 @@ public TestController {
 }
 ```
 
-### 注入当前用户
+### 注入当前用户(若无需求可不实现)
+可根据jwt令牌自动注入当前请求用户,具体使用如下
 
-继承JWTIdentity,实现getCurrent方法
+<b>继承JWTIdentity,实现getCurrent方法</b>
 
 ```java
 @Component
 public class MyJWTIdentity extends JWTIdentity{
 
     @Autowired
-    UserService userService; //注入用户服务
+    UserService userService; //注入用户服务(请自行实现)
 
     @Override
     Object getCurrent(DecodedJWT jwt){
         //根据当前请求的令牌实现查找并返回当前用户
-        String id = jwt.getClaim("id")  //获得令牌中的id
-        return userService.findById(id)
+        String id = jwt.getClaim("id").asString();  //获得令牌中的id
+        //DecodedJWT中方法请参考 https://github.com/auth0/java-jwt
+        return userService.findById(id);
+        
     }
 }
 ```
 
-controller参数打上@JWTCurrent注解
+<b>controller参数上标记@JWTCurrent注解</b>
 ```java
 @RestController
 public class TestController{
@@ -116,9 +122,10 @@ public class TestController{
     }
 }
 ```
+
 ### 自定义配置
 请参考配置示例文件并根据自身需求配置
-```yml
+```yaml
 spring:
     port: xxx
     xx: xx 
@@ -152,7 +159,7 @@ public class MyAlgorithmProvider extends JWTAlgorithmProvider{
 ### 发送请求
 请求头部携带token默认格式
 
-```http request
+```yaml
 Authorization: Bearer <your token here>
 ```
 

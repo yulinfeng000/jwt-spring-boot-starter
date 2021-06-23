@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestJWTIdentity implements JWTIdentity {
+public class TestJWTIdentity extends JWTIdentity {
 
     @Autowired
     MockDB db;
 
-    @Override
-    public Object getCurrent(DecodedJWT identity) {
-        String ide = identity.getClaim("ide").asString();
+    public Object getCurrent(DecodedJWT jwt) {
+        String ide = jwt.getClaim("ide").asString();
         return db.get(ide);
     }
 }

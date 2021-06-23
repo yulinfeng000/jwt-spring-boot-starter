@@ -3,7 +3,6 @@ package fun.yulinfeng.jwt.starter;
 import fun.yulinfeng.jwt.starter.annotation.JWTCurrent;
 import fun.yulinfeng.jwt.starter.annotation.JWTRequire;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -46,13 +45,11 @@ public class TestController {
         return Map.of("user", "");
     }
 
+
     @JWTRequire
     @GetMapping("/current")
     public Object testJWTCurrent(@JWTCurrent TestUser user) {
         System.out.println(user.toString());
-        if (user != null) {
-            return Map.of("user", user.username);
-        }
-        return Map.of("user", "");
+        return Map.of("user", user.username);
     }
 }

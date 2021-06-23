@@ -9,9 +9,6 @@ public class JWTProperties {
     @Value("${jwt.expire-time:86400}")
     public Long expireTime;
 
-    @Value("${jwt.encrypt-method:HS256}")
-    public String encryptMethod;
-
     @Value("${jwt.secret-key:123456}")
     public String secretKey;
 
@@ -26,7 +23,5 @@ public class JWTProperties {
 
     @Value("${jwt.path.exclude:}")
     public String[] exclude;
-
-
 
 }

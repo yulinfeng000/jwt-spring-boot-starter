@@ -1,9 +1,10 @@
-package fun.yulinfeng.jwt.starter.algo;
+package fun.yulinfeng.jwt.starter.core.impl;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import fun.yulinfeng.jwt.starter.core.JWTAlgorithmProvider;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
 
-public class DefaultAlgorithmProvider extends JWTAlgorithmProvider{
+public class DefaultAlgorithmProvider extends JWTAlgorithmProvider {
 
     JWTProperties jwtProperties;
 

@@ -1,7 +1,7 @@
 package fun.yulinfeng.jwt.starter;
 
 import fun.yulinfeng.jwt.starter.core.JWTIdentity;
-import fun.yulinfeng.jwt.starter.core.JWTManager;
+import fun.yulinfeng.jwt.starter.core.impl.DefaultJWTManager;
 
 import fun.yulinfeng.jwt.starter.interceptor.JWTAuthInterceptor;
 import fun.yulinfeng.jwt.starter.resolver.JWTCurrentArgumentResolver;
@@ -34,7 +34,7 @@ class JwtSpringBootStarterApplicationTests {
     WebApplicationContext wac;
 
     @Autowired
-    JWTManager jwtManager;
+    DefaultJWTManager jwtManager;
 
     @Autowired
     MockMvc mockMvc;
@@ -97,7 +97,7 @@ class JwtSpringBootStarterApplicationTests {
         request.addHeader("Authorization", "Bearer " + token);
         db.add(testUser);
         MockHttpServletResponse response = new MockHttpServletResponse();
-        HandlerMethod method = new HandlerMethod(controller, TestController.class.getMethod("testJWTCurrent", TestUser.class));
+        HandlerMethod method = new HandlerMethod(controller, TestController.class.getMethod("testJWTCurrent",TestUser.class));
         boolean b = jwtAuthInterceptor.preHandle(request, response, method);
         assert b;
         requestAdapter.setArgumentResolvers(List.of(new JWTCurrentArgumentResolver(jwtIdentity)));

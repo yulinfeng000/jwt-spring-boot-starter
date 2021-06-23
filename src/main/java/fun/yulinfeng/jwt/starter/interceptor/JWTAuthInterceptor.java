@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import fun.yulinfeng.jwt.starter.annotation.JWTRequire;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
+import fun.yulinfeng.jwt.starter.core.impl.DefaultJWTManager;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;

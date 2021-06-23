@@ -22,15 +22,18 @@ public class JWTCurrentArgumentResolver implements HandlerMethodArgumentResolver
         this.jwtIdentity = jwtIdentity;
     }
 
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         if (parameter.hasParameterAnnotation(JWTCurrent.class)) {
-            if (parameter.getMethodAnnotation(JWTRequire.class) == null || parameter.getDeclaringClass().isAnnotationPresent(JWTRequire.class)) {
-                throw new JWTUsageException("JWTCurrent注解必须在JWTRequire下使用!");
+            if (parameter.getMethodAnnotation(JWTRequire.class) != null || parameter.getDeclaringClass().isAnnotationPresent(JWTRequire.class)) {
+                //同时拥有JWTCurrent和JWTRequire注解，返回true
+                return true;
             }
+            //有JWTCurrent注解，无JWTRequire注解，抛出异常
+            throw new JWTUsageException("JWTCurrent注解必须在JWTRequire下使用!");
         }
-        return true;
+        //无JWTCurrent注解，返回false
+        return false;
     }
 
     @Override

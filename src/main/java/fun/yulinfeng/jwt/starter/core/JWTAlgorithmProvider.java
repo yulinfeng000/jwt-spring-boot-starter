@@ -1,4 +1,4 @@
-package fun.yulinfeng.jwt.starter.algo;
+package fun.yulinfeng.jwt.starter.core;
 
 import com.auth0.jwt.algorithms.Algorithm;
 

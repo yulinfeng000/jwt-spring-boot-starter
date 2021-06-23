@@ -21,7 +21,6 @@ public class JWTWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     public void addInterceptors(InterceptorRegistry registry) {
-        WebMvcConfigurer.super.addInterceptors(registry);
         registry.addInterceptor(jwtAuthInterceptor)
                 .addPathPatterns(jwtProperties.include)
                 .excludePathPatterns(jwtProperties.exclude);
@@ -29,7 +28,6 @@ public class JWTWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
         resolvers.add(jwtCurrentArgumentResolver);
     }
 }
