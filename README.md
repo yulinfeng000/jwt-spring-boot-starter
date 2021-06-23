@@ -6,31 +6,6 @@ jwt底层由 [auth0/java-jwt](https://github.com/auth0/java-jwt) 实现,本项�
 
 ## 使用方法
 
-### Maven pom.xml 配置
-```xml
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <repositories>
-        <!--引入本项目的仓库-->
-        <repository>
-            <id>github-repo</id>
-            <name>The Maven Repository on Github</name>
-            <url>https://yulinfeng000.github.io/jwt-spring-boot-starter/mvn-repo/</url>
-        </repository>
-    </repositories>
-
-
-    <dependencies>
-        <dependency>
-            <groupId>fun.yulinfeng</groupId>
-            <artifactId>jwt-spring-boot-starter</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-    </dependencies>
-</project>
-```
-
 ### 生成JWT
 
 注入JWTManager,调用sign方法签发jwt令牌
