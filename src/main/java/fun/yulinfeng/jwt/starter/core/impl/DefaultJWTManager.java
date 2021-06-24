@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import fun.yulinfeng.jwt.starter.core.JWTIdentity;
 import fun.yulinfeng.jwt.starter.core.JWTManager;
+import fun.yulinfeng.jwt.starter.exception.JWTUsageException;
 import fun.yulinfeng.jwt.starter.property.JWTProperties;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -79,7 +80,8 @@ public class DefaultJWTManager extends JWTManager {
     @Deprecated(since = "建议使用注解方式注入用户")
     public Object current() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        DecodedJWT ide = (DecodedJWT) request.getAttribute("jwt");
-        return jwtIdentity.getCurrent(ide);
+        DecodedJWT jwt = (DecodedJWT) request.getAttribute("jwt");
+        if(jwt == null)throw new JWTUsageException("必须在JWTRequire注解范围中使用!");
+        return jwtIdentity.getCurrent(jwt);
     }
 }

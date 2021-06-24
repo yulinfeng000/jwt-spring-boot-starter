@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+@JWTRequire
 @Component
 @RequestMapping("/user")
 public class TestController {
@@ -46,7 +46,7 @@ public class TestController {
     }
 
 
-    @JWTRequire
+
     @GetMapping("/current")
     public Object testJWTCurrent(@JWTCurrent TestUser user) {
         System.out.println(user.toString());

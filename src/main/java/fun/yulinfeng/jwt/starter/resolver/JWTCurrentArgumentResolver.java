@@ -25,7 +25,7 @@ public class JWTCurrentArgumentResolver implements HandlerMethodArgumentResolver
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         if (parameter.hasParameterAnnotation(JWTCurrent.class)) {
-            if (parameter.getMethodAnnotation(JWTRequire.class) != null || parameter.getDeclaringClass().isAnnotationPresent(JWTRequire.class)) {
+            if (parameter.hasMethodAnnotation(JWTRequire.class) || parameter.getDeclaringClass().isAnnotationPresent(JWTRequire.class)) {
                 //同时拥有JWTCurrent和JWTRequire注解，返回true
                 return true;
             }

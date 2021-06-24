@@ -89,7 +89,6 @@ class JwtSpringBootStarterApplicationTests {
     @Test
     void testJWTCurrent() throws Exception {
         TestUser testUser = new TestUser("123", "123");
-
         String token = jwtManager.sign(List.of("user"), Map.of("ide",testUser.username));
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRequestURI("/user/current");
